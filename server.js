@@ -52,4 +52,5 @@ app.post('/api/creditcard/apply', (req, res) => {
     res.json(response);
 });
 
-app.listen(8443, () => console.log('Mock Quotation API running on port 8443'));
+app.listen(process.env.PORT || 80, () => console.log('Mock Quotation API running'));
+
