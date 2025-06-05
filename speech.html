@@ -2,47 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Voice Input Form</title>
+  <title>AI-Assisted Quotation</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
+      background: #eef2f7;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     .form-container {
-      background: white;
+      background: #fff;
       padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      width: 350px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 360px;
     }
     h2 {
       text-align: center;
-      color: #333;
+      color: #2c3e50;
+      margin-bottom: 20px;
     }
     label {
       display: block;
       margin-top: 15px;
-      color: #555;
+      color: #34495e;
     }
     input[type="text"], input[type="number"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
     }
     button {
       margin-top: 20px;
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background-color: #0078D4;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
     }
@@ -53,8 +54,8 @@
 </head>
 <body>
   <div class="form-container">
-    <h2>Voice Input Form</h2>
-    <form>
+    <h2>AI-Assisted Quotation</h2>
+    <form onsubmit="handleSubmit(event)">
       <label for="firstName">First Name:</label>
       <input type="text" id="firstName" name="firstName">
 
@@ -65,10 +66,16 @@
       <input type="number" id="income" name="income">
 
       <button type="button" onclick="startVoiceInput()">Start Voice Input</button>
+      <button type="submit">Submit</button>
     </form>
   </div>
 
   <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      alert("Your credit card is accepted");
+    }
+
     function startVoiceInput() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
