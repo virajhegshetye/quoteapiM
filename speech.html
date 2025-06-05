@@ -3,20 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <title>Voice Input Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #555;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005a9e;
+    }
+  </style>
 </head>
 <body>
-  <h2>Voice Input Form</h2>
-  <form>
-    <label for="firstName">First Name:</label><br>
-    <input type="text" id="firstName" name="firstName"><br><br>
+  <div class="form-container">
+    <h2>Voice Input Form</h2>
+    <form>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName">
 
-    <label for="lastName">Last Name:</label><br>
-    <input type="text" id="lastName" name="lastName"><br><br>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName">
 
-    <input type="submit" value="Submit">
-  </form>
+      <label for="income">Income:</label>
+      <input type="number" id="income" name="income">
 
-  <button onclick="startVoiceInput()">Start Voice Input</button>
+      <button type="button" onclick="startVoiceInput()">Start Voice Input</button>
+    </form>
+  </div>
 
   <script>
     function startVoiceInput() {
@@ -32,8 +82,16 @@
       recognition.maxAlternatives = 1;
 
       let step = 0;
-      const prompts = ["Please say your first name", "Now say your last name"];
-      const fields = [document.getElementById("firstName"), document.getElementById("lastName")];
+      const prompts = [
+        "Please say your first name",
+        "Now say your last name",
+        "Finally, say your income"
+      ];
+      const fields = [
+        document.getElementById("firstName"),
+        document.getElementById("lastName"),
+        document.getElementById("income")
+      ];
 
       function askNext() {
         if (step < prompts.length) {
