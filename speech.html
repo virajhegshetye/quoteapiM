@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Voice Input Form</title>
+</head>
+<body>
+  <h2>Voice Input Form</h2>
+  <form>
+    <label for="firstName">First Name:</label><br>
+    <input type="text" id="firstName" name="firstName"><br><br>
+
+    <label for="lastName">Last Name:</label><br>
+    <input type="text" id="lastName" name="lastName"><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <button onclick="startVoiceInput()">Start Voice Input</button>
+
+  <script>
+    function startVoiceInput() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Your browser does not support Speech Recognition.");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      let step = 0;
+      const prompts = ["Please say your first name", "Now say your last name"];
+      const fields = [document.getElementById("firstName"), document.getElementById("lastName")];
+
+      function askNext() {
+        if (step < prompts.length) {
+          const utterance = new SpeechSynthesisUtterance(prompts[step]);
+          speechSynthesis.speak(utterance);
+          utterance.onend = () => recognition.start();
+        }
+      }
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        fields[step].value = transcript;
+        step++;
+        askNext();
+      };
+
+      recognition.onerror = (event) => {
+        alert("Error occurred in recognition: " + event.error);
+      };
+
+      askNext();
+    }
+  </script>
+</body>
+</html>
