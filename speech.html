@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,10 +51,16 @@
     button:hover {
       background-color: #005a9e;
     }
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100px;
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Barclays_UK_Logo_2022.svg" alt="Barclays Logo" class="logo">
     <h2>AI-Assisted Quotation</h2>
     <form onsubmit="handleSubmit(event)">
       <label for="firstName">First Name:</label>
@@ -76,51 +83,53 @@
       alert("Your credit card is accepted");
     }
 
-    function startVoiceInput() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Your browser does not support Speech Recognition.");
-        return;
-      }
-
-      const recognition = new SpeechRecognition();
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition;
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
+    }
 
-      let step = 0;
-      const prompts = [
-        "Please say your first name",
-        "Now say your last name",
-        "Finally, say your income"
-      ];
-      const fields = [
-        document.getElementById("firstName"),
-        document.getElementById("lastName"),
-        document.getElementById("income")
-      ];
+    let step = 0;
+    const prompts = [
+      "Please say your first name",
+      "Now say your last name",
+      "Finally, say your income"
+    ];
+    const fields = [
+      document.getElementById("firstName"),
+      document.getElementById("lastName"),
+      document.getElementById("income")
+    ];
 
-      function askNext() {
-        if (step < prompts.length) {
-          const utterance = new SpeechSynthesisUtterance(prompts[step]);
-          speechSynthesis.speak(utterance);
-          utterance.onend = () => recognition.start();
-        }
+    function startVoiceInput() {
+      if (!recognition) {
+        alert("Your browser does not support Speech Recognition.");
+        return;
       }
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        fields[step].value = transcript;
-        step++;
-        askNext();
-      };
-
-      recognition.onerror = (event) => {
-        alert("Error occurred in recognition: " + event.error);
-      };
-
       askNext();
     }
+
+    function askNext() {
+      if (step < prompts.length) {
+        const utterance = new SpeechSynthesisUtterance(prompts[step]);
+        speechSynthesis.speak(utterance);
+        utterance.onend = () => recognition.start();
+      }
+    }
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      fields[step].value = transcript;
+      step++;
+      askNext();
+    };
+
+    recognition.onerror = (event) => {
+      alert("Error occurred in recognition: " + event.error);
+    };
   </script>
 </body>
 </html>
