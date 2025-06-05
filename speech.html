@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +11,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
     .form-container {
       background: #fff;
@@ -60,7 +60,7 @@
 </head>
 <body>
   <div class="form-container">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Barclays_UK_Logo_2022.svg" alt="Barclays Logo" class="logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/s_UK_Logo_2022.svg
     <h2>AI-Assisted Quotation</h2>
     <form onsubmit="handleSubmit(event)">
       <label for="firstName">First Name:</label>
@@ -80,7 +80,7 @@
   <script>
     function handleSubmit(event) {
       event.preventDefault();
-      alert("Your credit card is accepted");
+      window.location.href = "confirmation.html";
     }
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -120,16 +120,18 @@
       }
     }
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      fields[step].value = transcript;
-      step++;
-      askNext();
-    };
+    if (recognition) {
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        fields[step].value = transcript;
+        step++;
+        askNext();
+      };
 
-    recognition.onerror = (event) => {
-      alert("Error occurred in recognition: " + event.error);
-    };
+      recognition.onerror = (event) => {
+        alert("Error occurred in recognition: " + event.error);
+      };
+    }
   </script>
 </body>
 </html>
